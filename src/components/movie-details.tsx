@@ -10,15 +10,18 @@ interface MovieDetatilsProps {
   selectedMovieId: string;
   onCloseMovieDetail: () => void;
   onAddWatchedMovie: (movie: MovieDataWatchedProps) => void;
+  watchedMovies: MovieDataWatchedProps[];
 }
 
 export default function MovieDetails({
   selectedMovieId,
   onCloseMovieDetail,
   onAddWatchedMovie,
+  watchedMovies,
 }: MovieDetatilsProps) {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loadingMovie, setLoadingMovie] = useState(false);
+  const [userRating, setUserRating] = useState(0);
 
   function handleAddWatchedMovie() {
     if (!movie) return;
@@ -30,9 +33,10 @@ export default function MovieDetails({
       runtime: Number(movie?.Runtime.split(' ').at(0)),
       imdbRating: +movie.imdbRating,
       Poster: movie.Poster,
-      userRating: 0,
+      userRating,
     };
     onAddWatchedMovie(newWatchedMovie);
+    onCloseMovieDetail();
   }
 
   useEffect(() => {
@@ -48,6 +52,10 @@ export default function MovieDetails({
     }
     getMovieDetails();
   }, [selectedMovieId]);
+
+  const isWatchedMovie = watchedMovies
+    .map((movie) => movie.imdbID)
+    .includes(selectedMovieId);
 
   return (
     <div className="details">
@@ -75,17 +83,26 @@ export default function MovieDetails({
 
           <section>
             <div className="rating">
-              <StarRating
-                // onRatingChange={(rating) => console.log(rating)}
-                maxRating={10}
-                size={24}
-              />
-              <button
-                className="btn-add"
-                onClick={() => handleAddWatchedMovie()}
-              >
-                + Add to Watched
-              </button>
+              {!isWatchedMovie ? (
+                <>
+                  <StarRating
+                    onSetRating={setUserRating}
+                    maxRating={10}
+                    size={24}
+                  />
+
+                  {userRating > 0 && (
+                    <button
+                      className="btn-add"
+                      onClick={() => handleAddWatchedMovie()}
+                    >
+                      + Add to Watched
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>You rate with movie</p>
+              )}
             </div>
 
             <p>

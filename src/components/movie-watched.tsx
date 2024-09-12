@@ -3,7 +3,6 @@ import { CustomMovieWatchedInterface } from '../share/movies-interface';
 interface MovieWatchedProps extends CustomMovieWatchedInterface {}
 
 export default function MovieWatched({ watched: movie }: MovieWatchedProps) {
-  console.log(movie, 'Movie');
   return (
     <li key={movie.imdbID}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
