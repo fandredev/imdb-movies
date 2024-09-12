@@ -57,6 +57,10 @@ export default function MovieDetails({
     .map((movie) => movie.imdbID)
     .includes(selectedMovieId);
 
+  const watchedUserRating = watchedMovies.find(
+    (movie) => movie.imdbID === selectedMovieId
+  )?.userRating;
+
   return (
     <div className="details">
       {movie && !loadingMovie && (
@@ -101,7 +105,10 @@ export default function MovieDetails({
                   )}
                 </>
               ) : (
-                <p>You rate with movie</p>
+                <p>
+                  You rate with movie: {watchedUserRating}
+                  <span> ⭐</span>
+                </p>
               )}
             </div>
 

@@ -1,8 +1,13 @@
 import { CustomMovieWatchedInterface } from '../share/movies-interface';
 
-interface MovieWatchedProps extends CustomMovieWatchedInterface {}
+interface MovieWatchedProps extends CustomMovieWatchedInterface {
+  onRemoveWatchMovies: (id: string) => void;
+}
 
-export default function MovieWatched({ watched: movie }: MovieWatchedProps) {
+export default function MovieWatched({
+  watched: movie,
+  onRemoveWatchMovies,
+}: MovieWatchedProps) {
   return (
     <li key={movie.imdbID}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -20,6 +25,12 @@ export default function MovieWatched({ watched: movie }: MovieWatchedProps) {
           <span>⏳</span>
           <span>{movie.runtime} min</span>
         </p>
+        <button
+          className="btn-delete"
+          onClick={() => onRemoveWatchMovies(movie.imdbID)}
+        >
+          X
+        </button>
       </div>
     </li>
   );
