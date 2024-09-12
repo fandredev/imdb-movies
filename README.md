@@ -30,6 +30,14 @@ git clone git@github.com:fandredev/imdb-movies.git
  cd imdb-movies
 ```
 
+## Copy .env.example
+
+```
+ cp .env.example .env
+```
+
+#### Note: please, change your REACT_APP_IMBD_API_KEY variable in .env file
+
 ## Install dependencies
 
 ```
