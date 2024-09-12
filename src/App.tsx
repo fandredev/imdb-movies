@@ -9,10 +9,7 @@ import Input from './components/input';
 import NumResults from './components/num-results';
 import Box from './components/box';
 import MoviesList from './components/movies-list';
-import {
-  MovieDataWatchedProps,
-  tempWatchedData,
-} from './utils/movie-data-watch-temporary';
+import { MovieDataWatchedProps } from './utils/movie-data-watch-temporary';
 import WatchedMoviesSummary from './components/watched-summary';
 import MoviesWatchedList from './components/movies-watched-list';
 import Loader from './components/loader';
@@ -27,8 +24,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [watched, setWatched] =
-    useState<MovieDataWatchedProps[]>(tempWatchedData);
+  const [watched, setWatched] = useState<MovieDataWatchedProps[]>([]);
 
   const [selectedMovieId, setSelectedMovieId] = useState<null | string>(null);
 
@@ -38,6 +34,10 @@ export default function App() {
 
   function handleCloseMovie() {
     setSelectedMovieId(null);
+  }
+
+  function handleAddWatched(movie: MovieDataWatchedProps) {
+    setWatched((prevWatched) => [...prevWatched, movie]);
   }
 
   useEffect(() => {
@@ -93,6 +93,7 @@ export default function App() {
             <MovieDetails
               selectedMovieId={selectedMovieId}
               onCloseMovieDetail={handleCloseMovie}
+              onAddWatchedMovie={handleAddWatched}
             />
           ) : (
             <>

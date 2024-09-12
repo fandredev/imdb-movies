@@ -4,18 +4,36 @@ import { useEffect, useState } from 'react';
 import { API_KEY } from '../utils/api-key';
 import StarRating from './star-rating';
 import Loader from './loader';
+import { MovieDataWatchedProps } from '../utils/movie-data-watch-temporary';
 
 interface MovieDetatilsProps {
   selectedMovieId: string;
   onCloseMovieDetail: () => void;
+  onAddWatchedMovie: (movie: MovieDataWatchedProps) => void;
 }
 
 export default function MovieDetails({
   selectedMovieId,
   onCloseMovieDetail,
+  onAddWatchedMovie,
 }: MovieDetatilsProps) {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loadingMovie, setLoadingMovie] = useState(false);
+
+  function handleAddWatchedMovie() {
+    if (!movie) return;
+
+    const newWatchedMovie: MovieDataWatchedProps = {
+      imdbID: selectedMovieId,
+      Title: movie.Title,
+      Year: movie.Year,
+      runtime: Number(movie?.Runtime.split(' ').at(0)),
+      imdbRating: +movie.imdbRating,
+      Poster: movie.Poster,
+      userRating: 0,
+    };
+    onAddWatchedMovie(newWatchedMovie);
+  }
 
   useEffect(() => {
     async function getMovieDetails() {
@@ -62,6 +80,12 @@ export default function MovieDetails({
                 maxRating={10}
                 size={24}
               />
+              <button
+                className="btn-add"
+                onClick={() => handleAddWatchedMovie()}
+              >
+                + Add to Watched
+              </button>
             </div>
 
             <p>
