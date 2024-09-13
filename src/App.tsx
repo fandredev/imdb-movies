@@ -20,7 +20,10 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [watched, setWatched] = useState<MovieDataWatchedProps[]>([]);
+  const [watched, setWatched] = useState<MovieDataWatchedProps[]>(() => {
+    const watchedMovies = localStorage.getItem('watched_movies');
+    return watchedMovies ? JSON.parse(watchedMovies) : [];
+  });
 
   const [selectedMovieId, setSelectedMovieId] = useState<null | string>(null);
 
@@ -34,6 +37,7 @@ export default function App() {
 
   function handleAddWatched(movie: MovieDataWatchedProps) {
     setWatched((prevWatched) => [...prevWatched, movie]);
+    // localStorage.setItem('watched_movies', JSON.stringify([...watched, movie]));
   }
 
   function handleDeleteWatched(id: string) {
@@ -41,6 +45,10 @@ export default function App() {
       prevWatched.filter((movie) => movie.imdbID !== id)
     );
   }
+
+  useEffect(() => {
+    localStorage.setItem('watched_movies', JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     const controller = new AbortController();
