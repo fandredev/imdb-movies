@@ -15,8 +15,20 @@ export default function Input({
   const inputElement = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    inputElement.current?.focus();
-  }, []);
+    function callback({ code }: KeyboardEvent) {
+      if (document.activeElement === inputElement.current) return;
+
+      if (code === 'Enter') {
+        inputElement.current?.focus();
+        setQuery('');
+      }
+    }
+    document.addEventListener('keydown', callback);
+
+    return () => {
+      document.removeEventListener('keydown', callback);
+    };
+  }, [setQuery]);
 
   return (
     <input
