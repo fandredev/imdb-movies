@@ -5,6 +5,7 @@ import { API_KEY } from '../utils/api-key';
 import StarRating from './star-rating';
 import Loader from './loader';
 import { MovieDataWatchedProps } from '../utils/movie-data-watch-temporary';
+import { useKey } from '../hooks/useKey';
 
 interface MovieDetatilsProps {
   selectedMovieId: string;
@@ -48,15 +49,7 @@ export default function MovieDetails({
     }
   }, [userRating]);
 
-  useEffect(() => {
-    function handleEscapeKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        onCloseMovieDetail();
-      }
-    }
-    document.addEventListener('keydown', handleEscapeKey);
-    return () => document.removeEventListener('keydown', handleEscapeKey);
-  }, [onCloseMovieDetail]);
+  useKey('escape', onCloseMovieDetail);
 
   useEffect(() => {
     async function getMovieDetails() {

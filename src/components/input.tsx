@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
+import { useKey } from '../hooks/useKey';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   query: string;
@@ -14,21 +15,11 @@ export default function Input({
 }: InputProps) {
   const inputElement = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    function callback({ code }: KeyboardEvent) {
-      if (document.activeElement === inputElement.current) return;
-
-      if (code === 'Enter') {
-        inputElement.current?.focus();
-        setQuery('');
-      }
-    }
-    document.addEventListener('keydown', callback);
-
-    return () => {
-      document.removeEventListener('keydown', callback);
-    };
-  }, [setQuery]);
+  useKey('Enter', () => {
+    if (document.activeElement === inputElement.current) return;
+    inputElement.current?.focus();
+    setQuery('');
+  });
 
   return (
     <input
