@@ -40,6 +40,16 @@ export default function MovieDetails({
   }
 
   useEffect(() => {
+    function handleEscapeKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onCloseMovieDetail();
+      }
+    }
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, [onCloseMovieDetail]);
+
+  useEffect(() => {
     async function getMovieDetails() {
       setLoadingMovie(true);
       const response = await fetch(
