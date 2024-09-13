@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { MovieDataTemporaryProps } from './utils/movie-data-temporary';
 import Header from './components/navbar';
 import Main from './components/main';
 import Input from './components/input';
@@ -12,18 +11,17 @@ import MoviesWatchedList from './components/movies-watched-list';
 import Loader from './components/loader';
 import ErrorMessage from './components/error-message';
 import MovieDetails from './components/movie-details';
-import { API_KEY } from './utils/api-key';
+import { useMovies } from './hooks/useMovies';
 
 export default function App() {
-  const [movies, setMovies] = useState<MovieDataTemporaryProps[]>([]);
   const [query, setQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const [watched, setWatched] = useState<MovieDataWatchedProps[]>(() => {
     const watchedMovies = localStorage.getItem('watched_movies');
     return watchedMovies ? JSON.parse(watchedMovies) : [];
   });
+
+  const { error, isLoading, movies } = useMovies(query);
 
   const [selectedMovieId, setSelectedMovieId] = useState<null | string>(null);
 
@@ -49,48 +47,6 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('watched_movies', JSON.stringify(watched));
   }, [watched]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function getMovies() {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `https://www.omdbapi.com/?&apikey=${API_KEY}&s=${query}`,
-          {
-            signal: controller.signal,
-          }
-        );
-        if (!response.ok) {
-          setIsLoading(false);
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        if (data.Response === 'False') throw new Error('Movie not found');
-
-        setMovies(data.Search);
-        handleSelectMovie(data.imdbId);
-      } catch (error: any) {
-        if (error.name !== 'AbortError') setError(error.message as string);
-      } finally {
-        setIsLoading(false);
-        setError('');
-      }
-    }
-
-    if (query.length <= 2) {
-      setMovies([]);
-      setError('');
-
-      return;
-    }
-
-    handleCloseMovie();
-    getMovies();
-
-    return () => controller.abort();
-  }, [query]);
 
   return (
     <>
