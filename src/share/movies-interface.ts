@@ -5,10 +5,6 @@ export interface CustomMoviesInterface {
   movies: MovieDataTemporaryProps[];
 }
 
-export interface CustomMovieInterface {
-  movie: MovieDataTemporaryProps;
-}
-
 export interface CustomMoviesWatchedInterface {
   watched: MovieDataWatchedProps[];
 }
