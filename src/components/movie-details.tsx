@@ -1,6 +1,6 @@
 import { MovieDetail } from '../utils/movie-data-details';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { API_KEY } from '../utils/api-key';
 import StarRating from './star-rating';
 import Loader from './loader';
@@ -23,6 +23,8 @@ export default function MovieDetails({
   const [loadingMovie, setLoadingMovie] = useState(false);
   const [userRating, setUserRating] = useState(0);
 
+  const countRef = useRef(0);
+
   function handleAddWatchedMovie() {
     if (!movie) return;
 
@@ -34,10 +36,17 @@ export default function MovieDetails({
       imdbRating: +movie.imdbRating,
       Poster: movie.Poster,
       userRating,
+      countRatingDecisions: countRef.current,
     };
     onAddWatchedMovie(newWatchedMovie);
     onCloseMovieDetail();
   }
+
+  useEffect(() => {
+    if (userRating) {
+      countRef.current++;
+    }
+  }, [userRating]);
 
   useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent) {

@@ -6,4 +6,6 @@ export interface MovieDataWatchedProps {
   runtime: number;
   imdbRating: number;
   userRating: number;
+
+  countRatingDecisions?: number;
 }
