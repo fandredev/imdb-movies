@@ -53,6 +53,14 @@ export default function MovieDetails({
     getMovieDetails();
   }, [selectedMovieId]);
 
+  useEffect(() => {
+    document.title = `Movie Search: ${movie?.Title || 'Details'}`;
+
+    return () => {
+      document.title = 'usePopcorn';
+    };
+  }, [movie?.Title]);
+
   const isWatchedMovie = watchedMovies
     .map((movie) => movie.imdbID)
     .includes(selectedMovieId);

@@ -20,7 +20,7 @@ import { API_KEY } from './utils/api-key';
 export default function App() {
   const [movies, setMovies] =
     useState<MovieDataTemporaryProps[]>(tempMovieData);
-  const [query, setQuery] = useState('rio');
+  const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
