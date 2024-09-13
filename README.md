@@ -3,7 +3,6 @@
 The project use the IMDB API to construct the basic view to show movies.
 ![image](https://github.com/user-attachments/assets/2500cbdd-56c9-4e7f-a3fd-4713d344be9e)
 
-
 # Stack used
 
 <img src="https://skillicons.dev/icons?i=typescript,react,yarn,git&theme=dark" alt="typescript,react,yarn,git" />
@@ -51,7 +50,7 @@ git clone git@github.com:fandredev/imdb-movies.git
  yarn start
 ```
 
-## :mailbox_with_no_mail: Contatos
+## :mailbox_with_no_mail: Contacts
 
 E-mail: profissionalf.andre@gmail.com<br>
 Linkedin: https://www.linkedin.com/in/devfandre/<br>
