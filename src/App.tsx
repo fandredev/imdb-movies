@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  tempMovieData,
-  MovieDataTemporaryProps,
-} from './utils/movie-data-temporary';
+import { MovieDataTemporaryProps } from './utils/movie-data-temporary';
 import Header from './components/navbar';
 import Main from './components/main';
 import Input from './components/input';
@@ -18,8 +15,7 @@ import MovieDetails from './components/movie-details';
 import { API_KEY } from './utils/api-key';
 
 export default function App() {
-  const [movies, setMovies] =
-    useState<MovieDataTemporaryProps[]>(tempMovieData);
+  const [movies, setMovies] = useState<MovieDataTemporaryProps[]>([]);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -82,6 +78,7 @@ export default function App() {
       return;
     }
 
+    handleCloseMovie();
     getMovies();
 
     return () => controller.abort();
