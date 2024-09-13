@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   query: string;
@@ -12,9 +12,16 @@ export default function Input({
   placeholder = 'Search movies...',
   ...rest
 }: InputProps) {
+  const inputElement = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    inputElement.current?.focus();
+  }, []);
+
   return (
     <input
       {...rest}
+      ref={inputElement}
       className="search"
       type="text"
       placeholder={placeholder}
