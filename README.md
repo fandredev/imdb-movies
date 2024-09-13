@@ -1,6 +1,7 @@
 # Using the IMDB API
 
 The project use the IMDB API to construct the basic view to show movies.
+![image](https://github.com/user-attachments/assets/2500cbdd-56c9-4e7f-a3fd-4713d344be9e)
 
 
 # Stack used
